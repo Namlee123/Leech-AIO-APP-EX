@@ -42,6 +42,10 @@ if [[ ! -f "/mnt/data/config/caddy/Caddyfile" ]]; then
     cp /workdir/Caddyfile /mnt/data/config/caddy/
 fi
 
+if [ "${CADDY_DOMAIN}" = "" ]; then
+    sed -i 's|tls '{'$CADDY_EMAIL'}'||' /mnt/data/config/caddy/Caddyfile
+fi
+
 cp -f /mnt/data/config/caddy/Caddyfile /tmp/Caddyfile
 HASH="$(caddy hash-password --plaintext ${GLOBAL_PASSWORD})"
 sed -i "s|HASH|${HASH}|g" /tmp/Caddyfile
